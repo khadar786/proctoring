@@ -23,6 +23,25 @@ app.get('/',(req,res)=>{
 let connectedPeers=[];
 
 io.on("connection",(socket)=>{
+
+  socket.on("pre-offer",(data)=>{
+    console.log("pre-offer-came");
+    console.log(data);
+
+    const {callType,calleePersonalCode}=data;
+    
+    const connectedPeer=connectedPeers.find(peerSocketID=>peerSocketID===calleePersonalCode);
+
+    if(connectedPeer){
+      const data={
+        callerSocketId:socket.id,
+        callType
+      };
+
+      io.to(calleePersonalCode).emit("pre-offer",data);
+    }
+  });
+
   console.log("user connected to socket.IO server");
   console.log(socket.id);
 
