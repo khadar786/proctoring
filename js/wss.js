@@ -17,9 +17,18 @@ export const registerSocketEvents = (socket) => {
     console.log("receive pre-offer:",data);
     weRTCHandler.handlePreOffer(data);
   });
+
+  socket.on("pre-offer-answer", (data) => {
+    //console.log("receive pre-offer:",data);
+    weRTCHandler.handlePreOfferAnswer(data);
+  });
 };
 
 export const sendPreOffer = (data) => {
   console.log("emmiting to server pre offer event");
   socketIO.emit("pre-offer", data);
+};
+
+export const sendPreOfferAnswer=(data)=>{
+  socketIO.emit("pre-offer-answer",data);
 };

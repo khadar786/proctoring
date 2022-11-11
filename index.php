@@ -64,7 +64,7 @@
                     </div>
                     <p class='checkbox_container_paragraph'>Allow connection from strangers</p>
                 </div>
-                <!-- <div class='dashboard_blur display_none' id='dashboard_blur'></div> -->
+                <div class='dashboard_blur display_none' id='dashboard_blur'></div>
             </div>
         <div class='call_container'>
             <div class='videos_container'>

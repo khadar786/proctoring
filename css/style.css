@@ -52,7 +52,7 @@ body {
 
 .call_container {
   width: 50%;
-  height: 100%;
+  height: 600px;
 }
 
 .messenger_container {
@@ -472,6 +472,6 @@ body {
   height: 28px;
 }
 
-/* .display_none {
+.display_none {
   display: none;
-} */
+}

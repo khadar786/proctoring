@@ -36,8 +36,7 @@ io.on("connection", (socket) => {
 
     console.log(connectedPeer);
 
-    if (connectedPeer) {
-	  
+    if(connectedPeer){
       const data = {
         callerSocketId: socket.id,
         callType,
@@ -50,6 +49,26 @@ io.on("connection", (socket) => {
       const toCallee=newConnectedPeers[0];
       io.to(toCallee).emit("pre-offer", data); */
       io.to(calleePersonalCode).emit("pre-offer", data);
+    }else {
+      const data = {
+        preOfferAnswer: "CALLEE_NOT_FOUND",
+      };
+      io.to(socket.id).emit("pre-offer-answer", data);
+    }
+
+  });
+
+  socket.on("pre-offer-answer", (data) => {
+    console.log("pre offer answer came");
+    console.log(data);
+
+    const { callerSocketId }=data;
+    const connectedPeer = connectedPeers.find(
+      (peerSocketId) => peerSocketId === callerSocketId
+    );
+
+    if(connectedPeer) {
+      io.to(data.callerSocketId).emit("pre-offer-answer",data);
     }
   });
 
