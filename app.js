@@ -22,40 +22,48 @@ app.get('/',(req,res)=>{
 }); */
 let connectedPeers=[];
 
-io.on("connection",(socket)=>{
+io.on("connection", (socket) => {
+  connectedPeers.push(socket.id);
 
-  socket.on("pre-offer",(data)=>{
-    console.log("pre-offer-came");
-    console.log(data);
+  socket.on("pre-offer", (data) => {
+    //console.log("pre-offer-came");
+    const { calleePersonalCode, callType } = data;
+    //console.log(calleePersonalCode);
+    //console.log(connectedPeers);
+    const connectedPeer = connectedPeers.find(
+      (peerSocketId) => peerSocketId === calleePersonalCode
+    );
 
-    const {callType,calleePersonalCode}=data;
-    
-    const connectedPeer=connectedPeers.find(peerSocketID=>peerSocketID===calleePersonalCode);
+    console.log(connectedPeer);
 
-    if(connectedPeer){
-      const data={
-        callerSocketId:socket.id,
-        callType
+    if (connectedPeer) {
+	  
+      const data = {
+        callerSocketId: socket.id,
+        callType,
       };
 
-      io.to(calleePersonalCode).emit("pre-offer",data);
+      /* const newConnectedPeers = connectedPeers.filter(
+        (peerSocketId) => peerSocketId !== calleePersonalCode
+      );
+      
+      const toCallee=newConnectedPeers[0];
+      io.to(toCallee).emit("pre-offer", data); */
+      io.to(calleePersonalCode).emit("pre-offer", data);
     }
   });
 
-  console.log("user connected to socket.IO server");
-  console.log(socket.id);
-
-  connectedPeers.push(socket.id);
-
-  socket.on("disconnect",()=>{
+  socket.on("disconnect", () => {
     console.log("user disconnected");
 
-    let newConnectedPeers=connectedPeers.filter(peerSocketID=>peerSocketID!=socket.id);
+    const newConnectedPeers = connectedPeers.filter(
+      (peerSocketId) => peerSocketId !== socket.id
+    );
 
-    connectedPeers=newConnectedPeers;
-
+    connectedPeers = newConnectedPeers;
     console.log(connectedPeers);
   });
+
   console.log(connectedPeers);
 });
 

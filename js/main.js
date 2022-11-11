@@ -2,12 +2,11 @@ import * as store from "./store.js";
 import * as wss from "./wss.js";
 import * as weRTCHandler from "./webRTCHandler.js";
 import * as constants from "./constants.js";
-import {getIncommingCallDialog} from "./elements.js";
+//import {getIncommingCallDialog} from "./elements.js";
 // connect with Node JS server
 //initialization of socket ID connection
-var socketIO = io("http://localhost:4000");
-
-wss.registerSocketEvents(socketIO);
+const socket = io("http://localhost:4000");
+wss.registerSocketEvents(socket);
 
 //register event for personal code copy button
 const personalCodeCopyButton=document.getElementById('personal_code_copy_button');
@@ -35,8 +34,8 @@ personalCodeVideoButton.addEventListener('click',()=>{
     weRTCHandler.sendPreOffer(callType,calleePersonalCode);
 });
 
-getIncommingCallDialog(
+/* getIncommingCallDialog(
     "VIDEO",
     ()=>{},
     ()=>{}
-);
+); */

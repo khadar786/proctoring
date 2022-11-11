@@ -3,36 +3,51 @@ import * as ui from "./ui.js";
 import * as constants from "./constants.js";
 let connectedUserDetails;
 
-export const sendPreOffer=(callType,calleePersonalCode)=>{
-  console.log("pre offer function executed");
-  console.log(callType,calleePersonalCode);
-  const data={
+export const sendPreOffer = (callType, calleePersonalCode) => {
+  connectedUserDetails = {
     callType,
-    calleePersonalCode
+    socketId: calleePersonalCode,
   };
-  wss.sendPreOffer(data);
-}
 
-export const handlePreOffer=(data)=>{
-  console.log("pre offer came");
-  console.log(data);
-  const {callType,callerSocketId}=data;
-
-  connectedUserDetails={
-    socketID:callerSocketId,
-    callType
+  if (
+    callType === constants.callType.CHAT_PERSONAL_CODE ||
+    callType === constants.callType.VIDEO_PERSONAL_CODE
+  ) {
+    const data = {
+      callType,
+      calleePersonalCode,
+    };
+    ui.showCallingDialog(callingDialogRejectCallHandler);
+    wss.sendPreOffer(data);
   }
+};
 
-  if(callType==constants.callType.CHAT_PERSONAL_CODE || callType==constants.callType.VIDEO_PERSONAL_CODE){
-    ui.showingIncomingCallDialog(callType,acceptCallHandler,rejectCallHandler);
+export const handlePreOffer = (data) => {
+  const { callType, callerSocketId } = data;
+
+  connectedUserDetails = {
+    socketId: callerSocketId,
+    callType,
+  };
+
+  if (
+    callType === constants.callType.CHAT_PERSONAL_CODE ||
+    callType === constants.callType.VIDEO_PERSONAL_CODE
+  ) {
+    console.log(callType,"showing call dialog");
+    ui.showIncomingCallDialog(callType,acceptCallHandler,rejectCallHandler);
   }
-}
+};
 
-const acceptCallHandler=()=>{
+const acceptCallHandler = () => {
   console.log("call accepted");
-}
+};
 
-const rejectCallHandler=()=>{
+const rejectCallHandler = () => {
   console.log("call rejected");
-}
+};
+
+const callingDialogRejectCallHandler = () => {
+  console.log("rejecting the call");
+};
 

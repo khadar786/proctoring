@@ -6,12 +6,29 @@ export const updatePersonalCode=(personalcode)=>{
     personalCodeParagraph.innerHTML=personalcode;
 }
 
-export const showingIncomingCallDialog=(
+export const showIncomingCallDialog = (
     callType,
     acceptCallHandler,
-    rejectCallHandler)=>{
+    rejectCallHandler
+  ) => {
+    const callTypeInfo =
+      callType === constants.callType.CHAT_PERSONAL_CODE ? "Chat" : "Video";
+  
+    const incomingCallDialog = elements.getIncommingCallDialog(callTypeInfo,acceptCallHandler,rejectCallHandler
+    );
+  
+    // removing all dialogs inside HTML dialog element
+    const dialog = document.getElementById("dialog");
+    dialog.querySelectorAll("*").forEach((dialog) => dialog.remove());
+  
+    dialog.appendChild(incomingCallDialog);
+  };
 
-    const  chatTypeInfo=callType === constants.callType.CHAT_PERSONAL_CODE?"CHAT":"VIDEO";
+export const showCallingDialog=(rejectCallHandler)=>{
+    const callinDialog=elements.getCallingDialog(rejectCallHandler);
 
-    const incommingCallDialog=elements.getIncommingCallDialog();
-}
+    //removing all dialogs inside HTML dialog element
+    const dialog=document.getElementById("dialog");
+    dialog.querySelectorAll("*").forEach((dialog)=>dialog.remove());
+    dialog.appendChild(callinDialog);
+};
