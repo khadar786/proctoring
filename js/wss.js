@@ -1,7 +1,7 @@
 import * as store from "./store.js";
 import * as ui from "./ui.js";
 import * as weRTCHandler from "./webRTCHandler.js";
-
+import * as constants from './constants.js';
 let socketIO = null;
 
 export const registerSocketEvents = (socket) => {
@@ -22,6 +22,23 @@ export const registerSocketEvents = (socket) => {
     //console.log("receive pre-offer:",data);
     weRTCHandler.handlePreOfferAnswer(data);
   });
+
+  socket.on("webRTC-signaling", (data) => {
+    switch (data.type) {
+      case constants.webRTCSignaling.OFFER:
+        weRTCHandler.handleWebRTCOffer(data);
+        break;
+      case constants.webRTCSignaling.ANSWER:
+        weRTCHandler.handleWebRTCAnswer(data);
+        break;
+      case constants.webRTCSignaling.ICE_CANDIDATE:
+        weRTCHandler.handleWebRTCCandidate(data);
+        break;
+      default:
+        return;
+    }
+  });
+
 };
 
 export const sendPreOffer = (data) => {
@@ -31,4 +48,8 @@ export const sendPreOffer = (data) => {
 
 export const sendPreOfferAnswer=(data)=>{
   socketIO.emit("pre-offer-answer",data);
+};
+
+export const sendDataUsingWebRTCSignaling=(data)=>{
+  socketIO.emit("webRTC-signaling",data);
 };
