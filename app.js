@@ -4,7 +4,8 @@ const app=express();
 const PORT=process.PORT || 4000;
 const server=http.createServer(app);
 
-var allowedOrigins = "http://localhost:* http://127.0.0.1:*";
+//var allowedOrigins = "http://localhost:* http://127.0.0.1:* http://192.168.2.127:*";
+var allowedOrigins = "http://localhost:* http://127.0.0.1:*  http://192.168.2.127:*";
 const io=require('socket.io')(server,{
   cors: {
     origins:allowedOrigins,
@@ -22,7 +23,9 @@ app.get('/',(req,res)=>{
 }); */
 let connectedPeers=[];
 
+//io('http://192.168.2.127:8080',{secure: true});
 io.on("connection", (socket) => {
+  
   connectedPeers.push(socket.id);
 
   socket.on("pre-offer", (data) => {
@@ -98,6 +101,8 @@ io.on("connection", (socket) => {
   console.log(connectedPeers);
 });
 
-server.listen(PORT,()=>{
+/* server.listen(PORT,()=>{
 
-});
+}); */
+
+server.listen(PORT);

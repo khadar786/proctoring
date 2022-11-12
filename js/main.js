@@ -5,7 +5,8 @@ import * as constants from "./constants.js";
 //import {getIncommingCallDialog} from "./elements.js";
 // connect with Node JS server
 //initialization of socket ID connection
-const socket = io("http://localhost:4000");
+//const socket = io("http://localhost:4000");
+const socket = io("http://192.168.2.127:4000");
 wss.registerSocketEvents(socket);
 
 weRTCHandler.getLocalPreview();

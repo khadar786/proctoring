@@ -123,7 +123,7 @@
 
         </div>    
   </div>
-  <script src="socket.io.js"></script>
+  <script src="http://192.168.2.127:4000/socket.io/socket.io.js"></script>
   <script src='js/constants.js' type='module'></script>
   <script src='js/elements.js' type='module'></script>
   <script src='js/ui.js' type='module'></script>

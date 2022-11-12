@@ -14,8 +14,8 @@ const configuration={
   iceServers:[
     {
       urls:'stun:stun.l.google.com:13902'
-    }
-  ]
+    },
+  ],
 };
 
 export const getLocalPreview = () => {
@@ -44,22 +44,22 @@ const createPeerConnection=()=>{
         candidate: event.candidate,
       });
     }
-  }
+  };
 
   peerConnection.onconnectionstatechange=(event)=>{
     if(peerConnection.connectionstate==='connected'){
       console.log('successfully connected with other peer');
     }
-  }
+  };
 
   //receiving tracks
   const remoteStream=new MediaStream();
-  store.setremoteStream(remoteStream);
+  store.setRemoteStream(remoteStream);
   ui.updateRemoteVideo(remoteStream);
 
   peerConnection.ontrack=(event)=>{
     remoteStream.addTrack(event.track);
-  }
+  };
 
   //add our stream to peer connection
   if (
@@ -71,7 +71,7 @@ const createPeerConnection=()=>{
       peerConnection.addTrack(track, localStream);
     }
   }
-}
+};
 
 export const sendPreOffer = (callType, calleePersonalCode) => {
   connectedUserDetails = {
@@ -159,7 +159,7 @@ export const handlePreOfferAnswer=(data)=>{
 
   if(preOfferAnswer === constants.preOfferAnswer.CALL_ACCEPTED){
     //send webRTC offer
-    ui.showInfoDialog(preOfferAnswer);
+    ui.showCallElements(connectedUserDetails.callType);
     createPeerConnection();
     //send WebRTC offer
     sendWebRTCOffer();

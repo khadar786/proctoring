@@ -45,7 +45,7 @@ export const setscreenSharingStream=(stream)=>{
     };
 };
 
-export const setremoteStream=(stream)=>{
+export const setRemoteStream=(stream)=>{
     state={
         ...state,
         remoteStream:stream
